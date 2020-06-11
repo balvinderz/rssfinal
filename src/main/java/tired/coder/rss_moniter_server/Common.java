@@ -9,6 +9,7 @@ public class Common {
     public static  ScraperConfig config;
     private static  final ArrayList<MyThread> myThreads = new ArrayList<>();
     private static  final HashMap<String,Integer> linksFound = new HashMap<>();
+    public  static String lastLink = "";
 
     public static  boolean isRunning()
     {

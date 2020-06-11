@@ -118,6 +118,8 @@ public class MyThread extends Thread {
                                        {
 
                                            pr.println(getTime() + " Thread "+ name+" Found Anchor and clicked on it");
+                                           Common.lastLink = item.link;
+
                                            foundAnchor = true;
                                            File f= new File("background.html");
                                            FileWriter fr1 = new FileWriter(f,false);
@@ -143,6 +145,8 @@ public class MyThread extends Thread {
 
                                                        foundButton = true;
                                                        File f= new File("background.html");
+                                                       Common.lastLink = item.link;
+
                                                        FileWriter fr1 = new FileWriter(f,false);
                                                        BufferedWriter br1 = new BufferedWriter(fr1);
                                                        PrintWriter pr1 = new PrintWriter(br1);
