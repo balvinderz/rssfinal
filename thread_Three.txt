@@ -1,0 +1,18 @@
+2020-5-10 18:37:19:Succesffuly logged in to gengo.com
+2020-5-10 18:37:21:Link found:https://gengo.com/t/jobs/details/24788514?referral=rss
+2020-5-10 18:37:23:Gengo page opened
+2020-5-10 18:37:23Found Button and clicked on it
+2020-5-10 23:39:49:Succesffuly logged in to gengo.com
+2020-5-10 23:39:51:Link found:https://gengo.com/t/jobs/details/24788509?referral=rss
+2020-5-10 23:39:53:Gengo page opened
+2020-5-10 23:39:53Found Button and clicked on it
+2020-5-10 23:41:2:Succesffuly logged in to gengo.com
+2020-5-10 23:41:4:Link found:https://gengo.com/t/jobs/details/24788514?referral=rss
+2020-5-10 23:41:6:Gengo page opened
+2020-5-10 23:41:6Found Button and clicked on it
+2020-5-10 23:41:58:Succesffuly logged in to gengo.com
+2020-5-10 23:42:0:Link found:https://gengo.com/t/jobs/details/24788522?referral=rss
+2020-5-10 23:42:2:Gengo page opened
+2020-5-10 23:42:2Found Button and clicked on it
+2020-5-11 10:35:56:397:Succesffuly logged in to gengo.com
+2020-5-11 10:54:25:797:Succesffuly logged in to gengo.com
