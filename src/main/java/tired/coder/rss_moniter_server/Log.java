@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 public class Log {
-    @GetMapping("/log")
+    @GetMapping("/logs")
     public String getAllLog()
     {
 
@@ -25,10 +25,10 @@ public class Log {
         ArrayList<String> lines = new ArrayList<>();
 
         try {
-            byte[] bytes = Files.readAllBytes(path1);
             List<String> allLines = Files.readAllLines(path1, StandardCharsets.UTF_8);
             lines.addAll(allLines);
              allLines = Files.readAllLines(path2, StandardCharsets.UTF_8);
+
             lines.addAll(allLines);
 
           allLines = Files.readAllLines(path3, StandardCharsets.UTF_8);

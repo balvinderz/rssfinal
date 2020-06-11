@@ -4,7 +4,11 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**
 !**/src/test/**
-
+thread_One.txt
+thread_Two.txt
+thread_Three.txt
+settings.html
+serverConfig.txt
 ### STS ###
 .apt_generated
 .classpath

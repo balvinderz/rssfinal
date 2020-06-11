@@ -23,11 +23,9 @@
 
         </div>
     </div>
-    <form th:action="${running.equals('Running') ? './stopScraper' : './startScraper'}" method="GET">
-        <button type="submit" class="btn btn-primary" th:text="${running.equals('Running') ?'Stop Server' : 'Start server'}">
+        <button type="button"  id="myButton" onclick="stopOrStartServer()" class="btn btn-primary" th:text="${running.equals('Running') ?'Stop Server' : 'Start server'}">
 
         </button>
-    </form>
     <div class="row mt-1">
         <div class="col-12">
             <p>Current Configuration </p>
@@ -111,6 +109,25 @@
         location.reload();
 
     }
+ async   function stopOrStartServer(){
+       document.getElementById("myButton").disabled = true;
+
+       if(document.getElementById("myButton").textContent ==="Start server")
+       {
+           let  res = await fetch("./startScraper");
+           let  text = await res.text();
+           alert(text);
+           location.reload();
+
+
+       }
+       else{
+           let  res = await fetch("./stopScraper");
+           let  text = await res.text();
+           alert(text);
+           location.reload();
+       }
+   }
 </script>
 
 </html>

@@ -59,7 +59,7 @@ public class MyThread extends Thread {
             br = new BufferedWriter(fr);
             pr = new PrintWriter(br);
 
-            pr.println((getTime()+":"+"Succesffuly logged in to gengo.com"));
+            pr.println((getTime()+":"+" Thread "+name+" : Succesffuly logged in to gengo.com"));
             pr.close();
             br.close();
             fr.close();;
@@ -103,9 +103,9 @@ public class MyThread extends Thread {
                                br = new BufferedWriter(fr);
                                pr = new PrintWriter(br);
 
-                               pr.println(getTime()+":"+ "Link found:"+item.link);
+                               pr.println(getTime()+":"+ " Thread "+name+": Link found:"+item.link);
                                driver.get(item.link);
-                               pr.println(getTime()+":"+"Gengo page opened");
+                               pr.println(getTime()+":"+" Thread "+name+": Gengo page opened");
                                boolean  foundAnchor = false;
                                boolean foundButton = false;
 
@@ -117,7 +117,7 @@ public class MyThread extends Thread {
                                        if(!foundAnchor)
                                        {
 
-                                           pr.println(getTime()+"Found Anchor and clicked on it");
+                                           pr.println(getTime() + " Thread "+ name+" Found Anchor and clicked on it");
                                            foundAnchor = true;
                                            File f= new File("background.html");
                                            FileWriter fr1 = new FileWriter(f,false);
@@ -139,7 +139,7 @@ public class MyThread extends Thread {
                                                {
 
                                                    if (!foundButton) {
-                                                       pr.println(getTime() + "Found Button and clicked on it");
+                                                       pr.println(getTime() + " Thread "+ name+" Found Button and clicked on it");
 
                                                        foundButton = true;
                                                        File f= new File("background.html");
