@@ -232,9 +232,41 @@ public class MyThread extends Thread {
         Calendar c = Calendar.getInstance();
 
         c.setTimeInMillis(System.currentTimeMillis());
-
-        String date = c.get(Calendar.YEAR)+"-"+c.get(Calendar.MONTH)+"-"+c.get(Calendar.DAY_OF_MONTH);
-        String time = c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND)+":"+c.get(Calendar.MILLISECOND);
+        int month = c.get(Calendar.MONTH);
+        int  dayOfMonth = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int seconds = c.get(Calendar.SECOND);
+        int millisecond = c.get(Calendar.MILLISECOND);
+        String months,days,hours,minutes,secondss,ms;
+        if(month<10)
+            months = "0"+ month;
+        else
+            months = String.valueOf(month);
+        if(dayOfMonth<10)
+            days = "0"+ dayOfMonth;
+        else
+            days =String.valueOf(dayOfMonth);
+        if(hour<10)
+            hours = "0"+hour;
+        else
+            hours = String.valueOf(hour);
+        if(minute<10)
+            minutes = "0"+ minute;
+        else
+            minutes = String.valueOf(minute);
+        if(seconds<10)
+            secondss = "0"+seconds;
+        else
+            secondss = String.valueOf(seconds);
+        if(millisecond<10)
+            ms = "00"+millisecond;
+        else if(millisecond<100)
+            ms="0"+millisecond;
+        else
+            ms= String.valueOf(millisecond);
+        String date = c.get(Calendar.YEAR)+"-"+months+"-"+days;
+        String time =hours+":"+minutes+":"+secondss+":"+ms;
         String t = date+" "+time;
         return t;
 

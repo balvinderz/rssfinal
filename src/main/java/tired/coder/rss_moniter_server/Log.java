@@ -1,5 +1,7 @@
 package tired.coder.rss_moniter_server;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,17 +15,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@RestController
+@Controller
 public class Log {
     @GetMapping("/logs")
-    public String getAllLog()
+    public String getAllLog(Model model)
     {
 
         Path path1 = Paths.get("thread_"+"One.txt");
         Path path2 = Paths.get("thread_"+"Two.txt");
         Path path3 = Paths.get("thread_"+"Three.txt");
         ArrayList<String> lines = new ArrayList<>();
-
+        String fString="";
         try {
             List<String> allLines = Files.readAllLines(path1, StandardCharsets.UTF_8);
             lines.addAll(allLines);
@@ -35,7 +37,6 @@ public class Log {
             lines.addAll(allLines);
             Collections.sort(lines);
             Collections.reverse(lines);
-            String fString ="";
             for(String x : lines)
                 fString+=x+"<br/>";
 
@@ -45,7 +46,9 @@ public class Log {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "Exception";
+        model.addAttribute("strings","soja");
+
+        return "logs";
 
     }
 }
