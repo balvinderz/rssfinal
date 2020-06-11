@@ -154,8 +154,9 @@ public class MyThread extends Thread {
                                                    }
 
                                                    element.click();
+                                                   break;
+
                                                }
-                                               break;
                                            }
                                        }
                                       Thread.sleep(25);
