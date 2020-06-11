@@ -102,7 +102,7 @@
            jobString=jobString.substring(0,jobString.length-1);
 
 
-        let jobType = $("input:radio[name ='jobType']:checked").val();
+        let jobType = $("input:checkbox[name ='jobType']:checked").val();
         let  res = await fetch(`./saveConfig?rssLink=${rssLink}&cookie=${cookie}&minimum=${minimum}&maximum=${maximum}&jobType=${jobString}`);
         let text = await res.text();
         alert(text);
