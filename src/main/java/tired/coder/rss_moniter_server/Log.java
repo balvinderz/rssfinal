@@ -40,13 +40,12 @@ public class Log {
             for(String x : lines)
                 fString+=x+"<br/>";
 
-            return fString;
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        model.addAttribute("strings","soja");
+        model.addAttribute("strings",fString);
 
         return "logs";
 

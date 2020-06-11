@@ -8,6 +8,6 @@
     <title>Logs</title>
 </head>
 <body>
-<div class="content" th:utext="${strings}"></div>
+<div th:remove="tag" th:utext="${strings}"></div>
 </body>
 </html>
