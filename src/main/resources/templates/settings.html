@@ -86,7 +86,7 @@
         let cookie = $("#cookie").val();
         let minimum = $("#min").val()
         let maximum = $("#max").val();
-       var sports = document.forms[1].elements[ 'jobTypes[]' ];
+       var sports = document.forms[0].elements[ 'jobTypes[]' ];
        var jobString ="";
 
        for(let i =0;i<sports.length;i++)
@@ -102,7 +102,6 @@
            jobString=jobString.substring(0,jobString.length-1);
 
 
-        let jobType = $("input:checkbox[name ='jobType']:checked").val();
         let  res = await fetch(`./saveConfig?rssLink=${rssLink}&cookie=${cookie}&minimum=${minimum}&maximum=${maximum}&jobType=${jobString}`);
         let text = await res.text();
         alert(text);
