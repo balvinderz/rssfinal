@@ -14,11 +14,4 @@
 <div id="yourId" th:text="${link}"></div>
 </body>
 
-<script>
-    let val =document.getElementById("yourId").innerText;
-    console.log(val);
-
-    chrome.runtime.sendMessage(val);
-
-</script>
 </html>
