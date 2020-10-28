@@ -1,6 +1,18 @@
 package tired.coder.rss_moniter_server;
 
+import com.gargoylesoftware.css.parser.CSSErrorHandler;
+import com.gargoylesoftware.css.parser.CSSException;
+import com.gargoylesoftware.css.parser.CSSParseException;
+import com.gargoylesoftware.htmlunit.ScriptException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebWindowEvent;
+import com.gargoylesoftware.htmlunit.WebWindowListener;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
+
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -92,6 +104,78 @@ public class Common {
             return true;
 
         }
+    }
+    public static  void setupWebClient(WebClient client)
+    {
+
+        client.getOptions().setCssEnabled(false);
+        client.getOptions().setCssEnabled(false);
+        client.getOptions().setThrowExceptionOnScriptError(false);
+        client.setJavaScriptErrorListener(new JavaScriptErrorListener() {
+
+            @Override
+            public void timeoutError(HtmlPage arg0, long arg1, long arg2) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void scriptException(HtmlPage arg0, ScriptException arg1) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void malformedScriptURL(HtmlPage arg0, String arg1, MalformedURLException arg2) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void loadScriptError(HtmlPage arg0, URL arg1, Exception arg2) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void warn(String message, String sourceName, int line, String lineSource, int lineOffset) {
+
+            }
+        });
+        client.setCssErrorHandler(new CSSErrorHandler() {
+            @Override
+            public void warning(CSSParseException exception) throws CSSException {
+
+            }
+
+            @Override
+            public void error(CSSParseException exception) throws CSSException {
+
+            }
+
+            @Override
+            public void fatalError(CSSParseException exception) throws CSSException {
+
+            }
+        });
+        client.getOptions().setJavaScriptEnabled(true);
+        client.addWebWindowListener(new WebWindowListener() {
+            @Override
+            public void webWindowOpened(WebWindowEvent event) {
+
+            }
+
+            @Override
+            public void webWindowContentChanged(WebWindowEvent event) {
+
+            }
+
+            @Override
+            public void webWindowClosed(WebWindowEvent event) {
+
+            }
+        });
+
     }
 
 }

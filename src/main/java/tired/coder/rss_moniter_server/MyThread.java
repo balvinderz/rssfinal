@@ -1,14 +1,13 @@
 package tired.coder.rss_moniter_server;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.util.Cookie;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.io.*;
 import java.util.*;
@@ -40,21 +39,24 @@ public class MyThread extends Thread {
 
     public void run() {
         int count = 0;
-
-
-        WebDriver driver = new HtmlUnitDriver();
-        driver.get("https://gengo.com/");
-
-        driver.manage().deleteAllCookies();
-        driver.manage().addCookie(new Cookie("myG_myGSession_",config.cookie));
-        driver.get("https://gengo.com/t/dashboard/");
-        File file = new File("thread_"+name+".txt");
-        FileWriter fr = null;
-        PrintWriter pr = null;
         BufferedWriter br = null;
-
-
+        PrintWriter pr = null;
+        FileWriter fr =null ;
+        File file = null;
+        WebClient client = new WebClient();
+        Common.setupWebClient(client);
         try {
+        client.getPage("https://gengo.com/auth/form/login/");
+        client.getCookieManager().clearCookies();
+        client.getCookieManager().addCookie(new Cookie("gengo.com", "myG_myGSession_", "99d7e089b008a8a8281c6c9813ddd8db97f46ff3"));
+        client.getPage("https://gengo.com/t/dashboard/");
+
+            file = new File("thread_"+name+".txt");
+            fr = null;
+            pr = null;
+            br = null;
+
+
             fr = new FileWriter(file, true);
             br = new BufferedWriter(fr);
             pr = new PrintWriter(br);
@@ -104,7 +106,7 @@ public class MyThread extends Thread {
                                pr = new PrintWriter(br);
 
                                pr.println(getTime()+":"+ " Thread "+name+": Link found:"+item.link);
-                               driver.get(item.link);
+                               client.getPage(item.link);
                                pr.println(getTime()+":"+" Thread "+name+": Gengo page opened");
                                boolean  foundAnchor = false;
                                boolean foundButton = false;
@@ -112,13 +114,18 @@ public class MyThread extends Thread {
                                for(int i =0;i<301;i++)
                                {
                                    try {
-                                       WebElement element = driver.findElement(By.id("start_job_button"));
+                                       HtmlPage page2 = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
+
+                                       DomElement element = page2.getElementById("start_job_button");
                                        element.click();
                                        if(!foundAnchor)
                                        {
 
                                            pr.println(getTime() + " Thread "+ name+" Found Anchor and clicked on it");
                                            Common.lastLink = item.link;
+                                           String secondLink = item.link.replace("?referral=rss","");
+                                           secondLink = secondLink.replace("jobs/details","workbench");
+                                           client.getPage(secondLink);
 
                                            foundAnchor = true;
                                            File f= new File("background.html");
@@ -133,15 +140,20 @@ public class MyThread extends Thread {
                                        Thread.sleep(25);
                                    }catch (Exception e)
                                    {
-                                       List<WebElement> elements = driver.findElements(By.tagName("button"));
+                                       HtmlPage page = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
 
-                                       for (WebElement element : elements) {
+                                       List<DomElement> elements = page.getElementsByTagName("button");
 
-                                           if (element.getText().contains("Start Translating") || element.getText().contains("Start Editing")) {
+                                       for (DomElement element : elements) {
+
+                                           if (element.getTextContent().contains("Start Translating") || element.getTextContent().contains("Start Editing")) {
                                                {
 
                                                    if (!foundButton) {
                                                        pr.println(getTime() + " Thread "+ name+" Found Button and clicked on it");
+                                                       String secondLink = item.link.replace("?referral=rss","");
+                                                       secondLink = secondLink.replace("jobs/details","workbench");
+                                                       client.getPage(secondLink);
 
                                                        foundButton = true;
                                                        File f= new File("background.html");

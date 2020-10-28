@@ -1,6 +1,5 @@
 package tired.coder.rss_moniter_server;
 
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
