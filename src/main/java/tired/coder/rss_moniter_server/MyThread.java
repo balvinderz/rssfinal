@@ -141,6 +141,7 @@ public class MyThread extends Thread {
                                    }catch (Exception e)
                                    {
                                        HtmlPage page = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
+                                       String currentUrl = page.getUrl().toString();
 
                                        List<DomElement> elements = page.getElementsByTagName("button");
 
@@ -148,12 +149,14 @@ public class MyThread extends Thread {
 
                                            if (element.getTextContent().contains("Start Translating") || element.getTextContent().contains("Start Editing")) {
                                                {
+                                                   element.click();
 
                                                    if (!foundButton) {
                                                        pr.println(getTime() + " Thread "+ name+" Found Button and clicked on it");
                                                        String secondLink = item.link.replace("?referral=rss","");
                                                        secondLink = secondLink.replace("jobs/details","workbench");
                                                        client.getPage(secondLink);
+                                                       client.getPage(currentUrl);
 
                                                        foundButton = true;
                                                        File f= new File("background.html");
@@ -169,7 +172,6 @@ public class MyThread extends Thread {
 
                                                    }
 
-                                                   element.click();
                                                    break;
 
                                                }
