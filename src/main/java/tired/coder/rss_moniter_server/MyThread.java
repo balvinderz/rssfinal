@@ -115,6 +115,7 @@ public class MyThread extends Thread {
                                {
                                    try {
                                        HtmlPage page2 = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
+                                       String currentUrl =page2.getUrl().toString();
 
                                        DomElement element = page2.getElementById("start_job_button");
                                        element.click();
@@ -126,6 +127,7 @@ public class MyThread extends Thread {
                                            String secondLink = item.link.replace("?referral=rss","");
                                            secondLink = secondLink.replace("jobs/details","workbench");
                                            client.getPage(secondLink);
+                                           client.getPage(currentUrl);
 
                                            foundAnchor = true;
                                            File f= new File("background.html");
