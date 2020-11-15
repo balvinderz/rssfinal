@@ -52,7 +52,7 @@ public class MyThread extends Thread {
         try {
         client.getPage("https://gengo.com/auth/form/login/");
         client.getCookieManager().clearCookies();
-        client.getCookieManager().addCookie(new Cookie("gengo.com", "myG_myGSession_", "99d7e089b008a8a8281c6c9813ddd8db97f46ff3"));
+        client.getCookieManager().addCookie(new Cookie("gengo.com", "myG_myGSession_", config.cookie));
         client.getPage("https://gengo.com/t/dashboard/");
 
             file = new File("thread_"+name+".txt");
