@@ -9,8 +9,11 @@ public class ScraperConfig  implements Serializable {
     float maximum;
     String rssLink;
     String cookie;
+    int hours;
+    long baseTime;
 
-    public ScraperConfig(String jobs, float minimum, float maximum, String rssLink, String cookie) {
+    boolean awayMode;
+    public ScraperConfig(String jobs, float minimum, float maximum, String rssLink, String cookie,boolean awayMode,int hours,long baseTime) {
         ArrayList<String> list = new ArrayList<>();
         for(String x : jobs.split(","))
             list.add(x);
@@ -18,7 +21,12 @@ public class ScraperConfig  implements Serializable {
 
         this.minimum = minimum;
         this.maximum = maximum;
+        this.baseTime = baseTime;
+
         this.rssLink = rssLink;
         this.cookie = cookie;
+        this.awayMode = awayMode;
+        this.hours  =hours;
+
     }
 }

@@ -69,6 +69,24 @@
                     <label for="max">Maximum Value</label>
                     <input class="form-control" id="max" type="number" name="maximum" th:value="${maximum}"  >
                 </div>
+                <div class="form-group">
+                    <label>Away Mode</label>
+                    <br/>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="awayMode" id="awayMode" value="" th:checked="${awayMode}" >
+                        <label class="form-check-label" for="awayMode">Away Mode</label>
+
+                    </div>
+                </div>
+                <div class="row" id="timeRow">
+                    <div class="col-md-2 col-sm-6">
+                        <div class="form-group ">
+                            <label for="hours">Hours</label>
+                            <input class="form-control" id="hours" type="number" name="hours" th:value="${hours}"  >
+                        </div>
+                    </div>
+                </div>
+
                 <button type="button" onclick="buttonOnClick()" class="btn btn-primary">Save</button>
             </form>
         </div>
@@ -81,11 +99,35 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
         crossorigin="anonymous"></script>
 <script>
+$(document).ready(function() {
+    //set initial state.
+    let isAway  = $('#' + "awayMode").is(":checked")
+    let x = document.getElementById("timeRow");
+
+
+     if(isAway)
+     {
+        x.style.display ="block";
+     }
+     else
+     x.style.display="none";
+    $('#awayMode').change(function() {
+        if($(this).is(":checked")) {
+                    x.style.display ="block";
+
+        }
+        else
+             x.style.display="none";
+
+    });
+});
    async  function buttonOnClick() {
         let rssLink = $("#rssLink").val();
         let cookie = $("#cookie").val();
         let minimum = $("#min").val()
         let maximum = $("#max").val();
+        let isChecked = $('#' + "awayMode").is(":checked").toString();
+
        var sports = document.forms[0].elements[ 'jobTypes[]' ];
        var jobString ="";
 
@@ -101,8 +143,9 @@
        else
            jobString=jobString.substring(0,jobString.length-1);
 
+        let hours =$("#hours").val();
 
-        let  res = await fetch(`./saveConfig?rssLink=${rssLink}&cookie=${cookie}&minimum=${minimum}&maximum=${maximum}&jobType=${jobString}`);
+        let  res = await fetch(`./saveConfig?rssLink=${rssLink}&cookie=${cookie}&minimum=${minimum}&maximum=${maximum}&jobType=${jobString}&hours=${hours}&awayMode=${isChecked}`);
         let text = await res.text();
         alert(text);
         location.reload();

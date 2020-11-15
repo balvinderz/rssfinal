@@ -22,14 +22,16 @@ public class Settings {
             model.addAttribute("Pro",true);
             model.addAttribute("Standard",true);
             model.addAttribute("Edit",true);
-
+            model.addAttribute("awayMode",false);
+            model.addAttribute("hours","");
             model.addAttribute("rssLink","");
             model.addAttribute("cookie","");
 
         }
         else {
             model.addAttribute("jobType", config.jobType);
-
+            model.addAttribute("awayMode",config.awayMode);
+            model.addAttribute("hours",config.hours);
             model.addAttribute("Pro", config.jobType.contains("Pro"));
             model.addAttribute("Standard", config.jobType.contains("Standard"));
             model.addAttribute("Edit", config.jobType.contains("Edit"));

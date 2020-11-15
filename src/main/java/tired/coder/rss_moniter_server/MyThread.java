@@ -2,7 +2,10 @@ package tired.coder.rss_moniter_server;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.javascript.host.Element;
+import com.gargoylesoftware.htmlunit.javascript.host.event.MouseEvent;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -10,7 +13,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MyThread extends Thread {
     static void print(Object toPrint) {
@@ -20,10 +26,8 @@ public class MyThread extends Thread {
     String name;
     Thread t;
     ScraperConfig config;
-
     MyThread(String thread,ScraperConfig config) {
         this.config = config;
-
         name = thread;
         t = new Thread(this, name);
         System.out.println("New thread: " + t);
@@ -99,6 +103,39 @@ public class MyThread extends Thread {
                            if(Common.foundNewLink(item.link))
                            {
 
+                               try {
+                                   if (config.awayMode) {
+                                       HtmlPage page = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
+                                      DomElement element = page.getElementById("time-countdown");
+                                      String content = element.getTextContent();
+                                       Pattern pattern = Pattern.compile("\\d+");
+                                       Matcher matcher = pattern.matcher(content);
+                                       ArrayList<Integer>  matches = new ArrayList<Integer>();
+                                       while (matcher.find())
+                                           matches.add(Integer.valueOf(content.substring(matcher.start(),matcher.end())));
+                                       int hoursLeft = 0;
+                                       if(matches.size()==3)
+                                       {
+                                           hoursLeft= matches.get(0) *24+ matches.get(1);
+
+                                       }
+                                       else  if(matches.size()==2)
+                                           hoursLeft = matches.get(0);
+
+
+                                    Date date = new Date(config.baseTime);
+                                    Date checkTime  = addHoursToJavaUtilDate(date,hoursLeft);
+                                    Date maxTime = addHoursToJavaUtilDate(date,config.hours);
+                                    if(checkTime.after(maxTime))
+                                    {
+                                       continue;
+                                    }
+                                   }
+                               }catch (Exception e)
+                               {
+                                   print(e.toString());
+                               }
+
                                 print(name +" got in with link" + item.link);
 
                                fr = new FileWriter(file, true);
@@ -151,7 +188,8 @@ public class MyThread extends Thread {
 
                                            if (element.getTextContent().contains("Start Translating") || element.getTextContent().contains("Start Editing")) {
                                                {
-                                                   element.click();
+                                                 element.fireEvent("click");
+                                                 element.click();
 
                                                    if (!foundButton) {
                                                        pr.println(getTime() + " Thread "+ name+" Found Button and clicked on it");
@@ -287,5 +325,10 @@ public class MyThread extends Thread {
         return t;
 
     }
-
+    public Date addHoursToJavaUtilDate(Date date, int hours) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR_OF_DAY, hours);
+        return calendar.getTime();
+    }
 }
