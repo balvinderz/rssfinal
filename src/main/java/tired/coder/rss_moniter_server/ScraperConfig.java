@@ -17,13 +17,11 @@ public class ScraperConfig  implements Serializable {
     String start;
     String end;
 
-    public ScraperConfig(String jobs, float minimum, float maximum, String rssLink, String cookie, boolean awayMode, Date startTime, Date endTime,String start,String end) {
+    public ScraperConfig(String jobs, float minimum, float maximum, String rssLink, String cookie, boolean awayMode,String start,String end) {
         ArrayList<String> list = new ArrayList<>();
         for(String x : jobs.split(","))
             list.add(x);
         this.jobType = list;
-        this.startTime = startTime;
-        this.endTime = endTime;
 
         this.minimum = minimum;
         this.maximum = maximum;

@@ -21,16 +21,11 @@ public class SaveForm {
             return "Cookie is empty";
         if(minimum>maximum)
             return "Minimum cannot be greater than maximum";
-        if(awayMode.equals("true") && startTime.equals(""))
+        if(awayMode.equals("true") && startTime.equals("") && endTime.equals(""))
             return "Invalid time";
         try {
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
-            Date startDate = (Date)formatter.parse(startTime);
-            Date endDate = (Date)formatter.parse(endTime);
-            if(startDate.after(endDate))
-                return "start date cannot be after end date";
 
-            ScraperConfig config = new ScraperConfig(jobType, minimum, maximum, rssLink, cookie, awayMode.equals("true"),startDate,endDate ,startTime,endTime);
+            ScraperConfig config = new ScraperConfig(jobType, minimum, maximum, rssLink, cookie, awayMode.equals("true") ,startTime,endTime);
             Common.setConfig(config);
 
         }catch (Exception e)
