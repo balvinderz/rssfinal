@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Period;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 @Controller
@@ -31,7 +34,25 @@ public class Settings {
         else {
             model.addAttribute("jobType", config.jobType);
             model.addAttribute("awayMode",config.awayMode);
-            model.addAttribute("hours",config.hours);
+            if(config.awayMode)
+            {
+                Date date = new Date();
+                Date baseDate = new Date(config.baseTime);
+                baseDate = addHoursToJavaUtilDate(baseDate,config.hours);
+               int difference =  hoursDifference(baseDate,date);
+                long secs = (baseDate.getTime() - date.getTime()) / 1000;
+                int hours = (int) (secs / 3600);
+                secs = secs % 3600;
+                int mins = (int) (secs / 60);
+                secs = secs % 60;
+                if(mins>0)
+                model.addAttribute("hours", Math.max(difference+1, 0));
+                else
+                    model.addAttribute("hours",Math.max(difference,0));
+
+
+            }
+
             model.addAttribute("Pro", config.jobType.contains("Pro"));
             model.addAttribute("Standard", config.jobType.contains("Standard"));
             model.addAttribute("Edit", config.jobType.contains("Edit"));
@@ -47,4 +68,16 @@ public class Settings {
 
         return "settings";
     }
+    public Date addHoursToJavaUtilDate(Date date, int hours) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR_OF_DAY, hours);
+        return calendar.getTime();
+    }
+    private static int hoursDifference(Date date1, Date date2) {
+
+        final int MILLI_TO_HOUR = 1000 * 60 * 60;
+        return (int) (date1.getTime() - date2.getTime()) / MILLI_TO_HOUR;
+    }
 }
+
