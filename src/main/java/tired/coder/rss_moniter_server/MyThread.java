@@ -122,14 +122,9 @@ public class MyThread extends Thread {
                                        else  if(matches.size()==2)
                                            hoursLeft = matches.get(0);
 
-
-                                    Date date = new Date(config.baseTime);
-                                    Date checkTime  = addHoursToJavaUtilDate(date,hoursLeft);
-                                    Date maxTime = addHoursToJavaUtilDate(date,config.hours);
-                                    if(checkTime.after(maxTime))
-                                    {
-                                       continue;
-                                    }
+                                    Date date =addHoursToJavaUtilDate(new Date(),hoursLeft);
+                                    if(!(date.after(config.startTime) && config.endTime.after(date)))
+                                        continue;
                                    }
                                }catch (Exception e)
                                {

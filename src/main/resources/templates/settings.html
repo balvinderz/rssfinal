@@ -79,10 +79,18 @@
                     </div>
                 </div>
                 <div class="row" id="timeRow">
-                    <div class="col-md-2 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
+
                         <div class="form-group ">
-                            <label for="hours">Hours</label>
-                            <input class="form-control" id="hours" type="number" name="hours" th:value="${hours}"  >
+                            <label for="startTime">Start Time</label>
+                            <input class="form-control" id="startTime" type="datetime-local" name="time" th:value="${startTime}"  >
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+
+                        <div class="form-group ">
+                            <label for="endTime">End Time</label>
+                            <input class="form-control" id="endTime" type="datetime-local" name="time" th:value="${endTime}"  >
                         </div>
                     </div>
                 </div>
@@ -143,9 +151,10 @@ $(document).ready(function() {
        else
            jobString=jobString.substring(0,jobString.length-1);
 
-        let hours =$("#hours").val();
+        let startTime =$("#startTime").val();
+        let endTime = $("#endTime").val();
 
-        let  res = await fetch(`./saveConfig?rssLink=${rssLink}&cookie=${cookie}&minimum=${minimum}&maximum=${maximum}&jobType=${jobString}&hours=${hours}&awayMode=${isChecked}`);
+        let  res = await fetch(`./saveConfig?rssLink=${rssLink}&cookie=${cookie}&minimum=${minimum}&maximum=${maximum}&jobType=${jobString}&awayMode=${isChecked}&startTime=${startTime}&endTime=${endTime}`);
         let text = await res.text();
         alert(text);
         location.reload();

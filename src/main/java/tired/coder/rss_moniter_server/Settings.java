@@ -26,7 +26,9 @@ public class Settings {
             model.addAttribute("Standard",true);
             model.addAttribute("Edit",true);
             model.addAttribute("awayMode",false);
-            model.addAttribute("hours","");
+            model.addAttribute("startTime","");
+            model.addAttribute("endTime","");
+
             model.addAttribute("rssLink","");
             model.addAttribute("cookie","");
 
@@ -34,24 +36,9 @@ public class Settings {
         else {
             model.addAttribute("jobType", config.jobType);
             model.addAttribute("awayMode",config.awayMode);
-            if(config.awayMode)
-            {
-                Date date = new Date();
-                Date baseDate = new Date(config.baseTime);
-                baseDate = addHoursToJavaUtilDate(baseDate,config.hours);
-               int difference =  hoursDifference(baseDate,date);
-                long secs = (baseDate.getTime() - date.getTime()) / 1000;
-                int hours = (int) (secs / 3600);
-                secs = secs % 3600;
-                int mins = (int) (secs / 60);
-                secs = secs % 60;
-                if(mins>0)
-                model.addAttribute("hours", Math.max(difference+1, 0));
-                else
-                    model.addAttribute("hours",Math.max(difference,0));
+            model.addAttribute("startTime",config.start);
 
-
-            }
+            model.addAttribute("endTime",config.end);
 
             model.addAttribute("Pro", config.jobType.contains("Pro"));
             model.addAttribute("Standard", config.jobType.contains("Standard"));
