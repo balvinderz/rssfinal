@@ -104,7 +104,8 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
 <script src="https://momentjs.com/downloads/moment-timezone-with-data.js" ></script>
-<script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.7/jstz.min.js"></script>
+
 <script
 
         src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -116,17 +117,13 @@ $(document).ready(function() {
     let isAway  = $('#' + "awayMode").is(":checked")
     let x = document.getElementById("timeRow");
     let startTime = $("#startTime").val();
+
     let endTime = $("#endTime").val();
     if(startTime !="" &&  endTime!="")
     {
-        var date = moment().format("YYYY-MM-DD");
-        var stamp = date + "T" + startTime + "Z";
-        var momentTime = moment(stamp);
-        var currTz = jstz.determine() || 'UTC';
+       getLocalTime(startTime,"#startTime");
+       getLocalTime(endTime,"#endTime");
 
-        var tzTime = momentTime.tz(currTz);
-        var formattedTime = tzTime.format('h:mm A');
-        console.log(formattedTime);
     }
 
 
@@ -171,8 +168,11 @@ $(document).ready(function() {
 
         let startTime =$("#startTime").val();
         let endTime = $("#endTime").val();
-
-        let  res = await fetch(`./saveConfig?rssLink=${rssLink}&cookie=${cookie}&minimum=${minimum}&maximum=${maximum}&jobType=${jobString}&awayMode=${isChecked}&startTime=${startTime}&endTime=${endTime}`);
+       if(startTime!="")
+     startTime =   getTimeInLondonTime(startTime);
+     if(endTime!="")
+     endTime = getTimeInLondonTime(endTime);  
+     let  res = await fetch(`./saveConfig?rssLink=${rssLink}&cookie=${cookie}&minimum=${minimum}&maximum=${maximum}&jobType=${jobString}&awayMode=${isChecked}&startTime=${startTime}&endTime=${endTime}`);
         let text = await res.text();
         alert(text);
         location.reload();
@@ -196,6 +196,38 @@ $(document).ready(function() {
            alert(text);
            location.reload();
        }
+   }
+   function getTimeInLondonTime(time)
+   {
+    var currTz = jstz.determine().name() || 'UTC';
+    console.log(currTz);
+    var date = moment().tz(currTz).format("YYYY-MM-DD");
+  var stamp = date + "T" + time + "Z";
+  // Create a Moment.js object
+  var momentTime = moment(stamp).tz(currTz);
+  
+  // Adjust using Moment Timezone
+
+  var tzTime = momentTime.tz("Europe/London");
+  var formattedTime = tzTime.format('hh:mm');
+
+console.log(formattedTime);
+
+  // Format the time back to normal
+  return formattedTime;
+
+   }
+   function getLocalTime(time,id){
+    var date = moment().format("YYYY-MM-DD");
+        var stamp = date + "T" + time + "Z";
+        var momentTime = moment(stamp).tz('Europe/London');
+    var currTz = jstz.determine().name() || 'UTC';
+    console.log(currTz);
+
+        var tzTime = momentTime.tz(currTz);
+        var formattedTime = tzTime.format('hh:mm');
+        $(id).val(formattedTime);
+
    }
 </script>
 
