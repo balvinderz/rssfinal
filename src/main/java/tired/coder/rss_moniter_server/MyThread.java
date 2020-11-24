@@ -108,6 +108,9 @@ public class MyThread extends Thread {
                                        Date currentDate = new Date();
                                        if ((currentDate.after(config.getStartTime()) && currentDate.before(config.getEndTime())))
                                        {
+                                           System.out.println("In awaym mode");
+                                           currentDate = null;
+
                                            HtmlPage page = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
                                            DomElement element = page.getElementById("time-countdown");
                                            String content = element.getTextContent();
@@ -122,11 +125,21 @@ public class MyThread extends Thread {
 
                                            } else if (matches.size() == 2)
                                                hoursLeft = matches.get(0);
-                                            if(hoursLeft<24)
+                                           matches = null;
+                                           matcher=null;
+                                           pattern = null;
+                                           page = null;
+                                           element = null;
+
+                                           if(hoursLeft<24)
                                             {
                                                 Date date = addHoursToJavaUtilDate(new Date(), hoursLeft);
-                                                if(date.after(config.getStartTime()) && date.before(config.getEndTime()))
+
+                                                if(date.after(config.getStartTime()) && date.before(config.getEndTime())) {
+                                                    date = null;
+
                                                     continue;
+                                                }
                                             }
 
                                        }
