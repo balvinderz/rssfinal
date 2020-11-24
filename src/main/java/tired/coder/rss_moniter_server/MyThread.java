@@ -105,26 +105,31 @@ public class MyThread extends Thread {
 
                                try {
                                    if (config.awayMode) {
-                                       HtmlPage page = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
-                                      DomElement element = page.getElementById("time-countdown");
-                                      String content = element.getTextContent();
-                                       Pattern pattern = Pattern.compile("\\d+");
-                                       Matcher matcher = pattern.matcher(content);
-                                       ArrayList<Integer>  matches = new ArrayList<Integer>();
-                                       while (matcher.find())
-                                           matches.add(Integer.valueOf(content.substring(matcher.start(),matcher.end())));
-                                       int hoursLeft = 0;
-                                       if(matches.size()==3)
+                                       Date currentDate = new Date();
+                                       if ((currentDate.after(config.getStartTime()) && currentDate.before(config.getEndTime())))
                                        {
-                                           hoursLeft= matches.get(0) *24+ matches.get(1);
+                                           HtmlPage page = (HtmlPage) client.getCurrentWindow().getEnclosedPage();
+                                           DomElement element = page.getElementById("time-countdown");
+                                           String content = element.getTextContent();
+                                           Pattern pattern = Pattern.compile("\\d+");
+                                           Matcher matcher = pattern.matcher(content);
+                                           ArrayList<Integer> matches = new ArrayList<Integer>();
+                                           while (matcher.find())
+                                               matches.add(Integer.valueOf(content.substring(matcher.start(), matcher.end())));
+                                           int hoursLeft = 0;
+                                           if (matches.size() == 3) {
+                                               hoursLeft = matches.get(0) * 24 + matches.get(1);
+
+                                           } else if (matches.size() == 2)
+                                               hoursLeft = matches.get(0);
+                                            if(hoursLeft<24)
+                                            {
+                                                Date date = addHoursToJavaUtilDate(new Date(), hoursLeft);
+                                                if(date.after(config.getStartTime()) && date.before(config.getEndTime()))
+                                                    continue;
+                                            }
 
                                        }
-                                       else  if(matches.size()==2)
-                                           hoursLeft = matches.get(0);
-
-                                    Date date =addHoursToJavaUtilDate(new Date(),hoursLeft);
-                                    if(!(date.after(config.startTime) && config.endTime.after(date)))
-                                        continue;
                                    }
                                }catch (Exception e)
                                {
@@ -324,6 +329,7 @@ public class MyThread extends Thread {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.HOUR_OF_DAY, hours);
+
         return calendar.getTime();
     }
 }

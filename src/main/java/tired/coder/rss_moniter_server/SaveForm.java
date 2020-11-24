@@ -21,7 +21,7 @@ public class SaveForm {
             return "Cookie is empty";
         if(minimum>maximum)
             return "Minimum cannot be greater than maximum";
-        if(awayMode.equals("true") && startTime.equals("") && endTime.equals(""))
+        if(awayMode.equals("true") && (startTime.equals("") || endTime.equals("")))
             return "Invalid time";
         try {
 

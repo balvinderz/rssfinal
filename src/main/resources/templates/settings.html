@@ -102,8 +102,8 @@
     </div>
 </div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
-<script src="https://momentjs.com/downloads/moment-timezone-with-data.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://momentjs.com/downloads/moment-timezone-with-data-10-year-range.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.7/jstz.min.js"></script>
 
 <script
@@ -200,16 +200,14 @@ $(document).ready(function() {
    function getTimeInLondonTime(time)
    {
     var currTz = jstz.determine().name() || 'UTC';
-    console.log(currTz);
     var date = moment().tz(currTz).format("YYYY-MM-DD");
-  var stamp = date + "T" + time + "Z";
-  // Create a Moment.js object
-  var momentTime = moment(stamp).tz(currTz);
-  
-  // Adjust using Moment Timezone
+  var stamp = date +" " + time;
 
-  var tzTime = momentTime.tz("Europe/London");
-  var formattedTime = tzTime.format('hh:mm');
+  // Create a Moment.js object
+  var londonTime = moment.tz(stamp,currTz).tz("Europe/London");
+  // Adjust usi ng Moment Timezone
+
+  var formattedTime = londonTime.format('hh:mm');
 
 console.log(formattedTime);
 
@@ -218,14 +216,12 @@ console.log(formattedTime);
 
    }
    function getLocalTime(time,id){
-    var date = moment().format("YYYY-MM-DD");
-        var stamp = date + "T" + time + "Z";
-        var momentTime = moment(stamp).tz('Europe/London');
-    var currTz = jstz.determine().name() || 'UTC';
-    console.log(currTz);
+       console.log(time);
 
-        var tzTime = momentTime.tz(currTz);
-        var formattedTime = tzTime.format('hh:mm');
+       var currTz = jstz.determine().name() || 'UTC';
+       var date = moment().tz(currTz).format("YYYY-MM-DD");
+       var localTime = moment.tz(date+" "+time,"Europe/London").tz(currTz)
+         var formattedTime = localTime.format('hh:mm');
         $(id).val(formattedTime);
 
    }
