@@ -15,12 +15,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Common {
     private   static boolean isRunning =false;
     public static  ScraperConfig config;
     private static  final ArrayList<MyThread> myThreads = new ArrayList<>();
-    private static  final HashMap<String,Integer> linksFound = new HashMap<>();
+    private static  final LinkedHashMap<String,Integer> linksFound = new LinkedHashMap<>();
     public  static String lastLink = "";
 
     public static  boolean isRunning()
@@ -93,7 +94,7 @@ public class Common {
     }
     public static boolean foundNewLink(String link)
     {
-
+      
         synchronized (linksFound)
         {
             if(linksFound.containsKey(link))
