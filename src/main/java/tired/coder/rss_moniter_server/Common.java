@@ -92,6 +92,14 @@ public class Common {
         config = configuration;
 
     }
+    public static  void removeNewLink(String link)
+    {
+        synchronized (linksFound)
+        {
+            linksFound.remove(link);
+            link = null;
+        }
+    }
     public static boolean foundNewLink(String link)
     {
       
