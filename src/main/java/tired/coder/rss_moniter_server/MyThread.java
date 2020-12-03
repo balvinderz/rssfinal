@@ -42,7 +42,7 @@ public class MyThread extends Thread {
     }
 
     public void run() {
-        int count = 0;
+        //int count = 0;
         BufferedWriter br = null;
         PrintWriter pr = null;
         FileWriter fr =null ;
@@ -88,9 +88,9 @@ public class MyThread extends Thread {
                 Response response = call.execute();
 
                 String res = response.body().string();
-                count += 1;
+                //count += 1;
 
-                print("Executed " + name + ":" + count);
+               // print("Executed " + name + ":" + count);
 
                 if (res.contains("<item")) {
 
