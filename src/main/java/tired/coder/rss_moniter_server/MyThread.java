@@ -137,7 +137,7 @@ public class MyThread extends Thread {
 
                                                 if(date.after(config.getStartTime()) && date.before(config.getEndTime())) {
                                                     date = null;
-                                                    Common.removeNewLink(item.link);
+                                                    //Common.removeNewLink(item.link);
                                                     continue;
                                                 }
                                             }
@@ -235,7 +235,7 @@ public class MyThread extends Thread {
                                }
                                if(!foundAnchor && !foundButton)
                                    pr.println(getTime()+"Not found button or anchor");
-                               Common.removeNewLink(item.link);
+                               //Common.removeNewLink(item.link);
                                pr.close();
                                fr.close();
                                br.close();
